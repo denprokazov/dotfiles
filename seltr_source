@@ -1,0 +1,6 @@
+#!/bin/sh
+
+key="вставляем сюда свой ключ API"
+text="$(echo $(xsel -o) | sed "s/[\"\'<>]//g")"
+translate="$(wget -qO - "https://translate.yandex.net/api/v1.5/tr.json/translate?key=$key&text=$text&lang=ru")"
+notify-send -u critical "$text" "$(echo $translate | sed 's/.*\[\"\(.*\)\"\].*/\1/')"
