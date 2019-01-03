@@ -100,24 +100,31 @@ nnoremap [c :vsc Diff.PreviousDifference<cr>
 " debugging
 
 " go to the type of the current symbol
-nnoremap gD :vsc ReSharper.ReSharper_GotoTypeDeclaration<cr>
+"nnoremap gD :vsc ReSharper.ReSharper_GotoTypeDeclaration<cr>
 nnoremap gI :vsc ReSharper.ReSharper_GotoImplementation<cr>
 nnoremap gI :vsc Edit.GoToImplementation<cr>
 
 " go to class member ("outline")
+" nnoremap <M-o> :vsc ReSharper.ReSharper_GotoFileMember<cr>
+" map gd :vsc ReSharper.ReSharper_GotoDeclaration<cr>
+" map gr :vsc ReSharper.ReSharper_FindUsages<cr>
+" map gR :vsc ReSharper.ReSharper_ShowFindResults<cr>
+" map gp :vsc Edit.PeekDefinition<cr>
+" map gb :vsc ReSharper.ReSharper_GotoBase<cr>
+" map gi :vsc ReSharper.ReSharper_GotoInheritors<cr>
+" map ge :vsc ReSharper.ReSharper_GotoRecentEdits<cr>
+" map gt :vsc ReSharper.ReSharper_GotoText<cr>
+" map gn :vsc ReSharper.ReSharper_GotoFile<cr>
+" map gL :vsc ReSharper.ReSharper_LocateInSolutionOrAssemblyExplorer<cr>
 nnoremap <M-o> :vsc ReSharper.ReSharper_GotoFileMember<cr>
-map gd :vsc ReSharper.ReSharper_GotoDeclaration<cr>
-map gr :vsc ReSharper.ReSharper_FindUsages<cr>
-map gR :vsc ReSharper.ReSharper_ShowFindResults<cr>
-map gp :vsc Edit.PeekDefinition<cr>
-map gb :vsc ReSharper.ReSharper_GotoBase<cr>
-map gi :vsc ReSharper.ReSharper_GotoInheritors<cr>
-map gs :vsc View.SolutionExplorer<cr>
-map gf :vsc View.FindResults1<cr>
-map ge :vsc ReSharper.ReSharper_GotoRecentEdits<cr>
-map gt :vsc ReSharper.ReSharper_GotoText<cr>
-map gn :vsc ReSharper.ReSharper_GotoFile<cr>
-map gL :vsc ReSharper.ReSharper_LocateInSolutionOrAssemblyExplorer<cr>
+nnoremap gd :vsc Edit.GoToDefinition<CR>
+nnoremap gr :vsc Edit.FindAllReferences<CR>
+nnoremap gD :vsc Edit.PeekDefinition<cr>
+nnoremap gi :vsc Edit.GoToImplementation<cr>
+nnoremap gn :vsc Edit.GoToAll<CR>
+nnoremap gL :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
+nnoremap gs :vsc View.SolutionExplorer<cr>
+nnoremap gf :vsc View.FindResults1<cr>
 
 "highlits navigation
 nnoremap <leader>e :vsc ReSharper.ReSharper_GotoNextErrorInSolution<cr>
@@ -141,9 +148,9 @@ nnoremap <C-k> :vsc ReSharper.ReSharper_InspectThis<cr>
 nnoremap gk    :vsc Edit.PeekDefinition<cr>
 
 "refactor commands 
-nnoremap rev :vsc ReSharper.Resharper_IntroVariable<CR>
-nnoremap rem :vsc ReSharper.ReSharper_ExtractMethod<CR>
-nnoremap reo :vsc ReSharper.ReSharper_Move<CR>
+xnoremap cev :vsc ReSharper.Resharper_IntroVariable<CR>
+xnoremap cem :vsc ReSharper.ReSharper_ExtractMethod<CR>
+nnoremap cm :vsc ReSharper.ReSharper_Move<CR>
 nnoremap crn :vsc ReSharper.ReSharper_Rename<cr>
 
 "show refactor menu
@@ -152,6 +159,7 @@ xnoremap <c-r><c-r> :vsc ReSharper.ReSharper_RefactorThis<cr>
 nnoremap cri        :vsc EditorContextMenus.CodeWindow.OrganizeUsings.RemoveAndSort<cr>
 "show quickfix menu
 xnoremap <bs> :vsc ReSharper_AltEnter<cr>
+nnoremap <bs> :vsc ReSharper_AltEnter<cr>
 
 " expression manipulation
 nnoremap gst :vsc Edit.WordTranspose<cr>
