@@ -15,4 +15,10 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Auto pairs for '(' '[' '{'
     Plug 'jiangmiao/auto-pairs'
 
+    " lsp Plugs
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    " lsp autocompletion framework
+    Plug 'hrsh7th/nvim-cmp' 
+
 call plug#end()

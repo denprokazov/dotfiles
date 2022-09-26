@@ -1,2 +1,2 @@
 " include plugins config file
-source $repos/dotfiles/macos/vimconfig/vim-plug/plugins.vim
+source $dotfilesDir/macos/vimconfig/vim-plug/plugins.vim
