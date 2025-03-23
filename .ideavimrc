@@ -10,8 +10,6 @@ set autoindent
 set expandtab
 set ttimeout
 set ttimeoutlen=50
-nnoremap <SPACE> <Nop>
-let mapleader=" "
 
 """ vim-sensible settings that work in IdeaVim
 set nrformats-=octal
@@ -21,9 +19,7 @@ set scrolloff=5    " vim-sensible overrides to 1 if not set, but set in defaults
 set sidescrolloff=5
 set history=1000   " overrides the 200 in defaults.vim
 
-" <leader> is \
-nnoremap <leader><space> :nohlsearch<CR>
-nnoremap \ ,
+" <leader> is space
 nnoremap gj i<cr><esc>k$
 nnoremap s /
 nnoremap S ?
@@ -60,7 +56,7 @@ nmap gr <Action>(FindUsages)
 nmap grr <Action>(FindUsagesInFile)
 nmap gf <Action>(Forward)
 nmap gh <Action>(ShowHoverInfo)
-nmap gi <Action>(GotoImplementation)
+nmap gi <Action>(ReSharperGotoImplementation)
 nmap gL <Action>(ActivateProjectToolWindow)
 nmap gn <Action>(SearchEverywhere)
 
@@ -84,7 +80,17 @@ nmap <leader>u <Action>(FindUsages)
 nmap <leader>v <Action>(Vcs.QuickListPopupAction)
 nmap <Leader>w <action>(ActiveToolwindowGroup)
 nmap <leader>x <Action>(HideAllWindows)
+
+" idea actions
 nmap <C-.> <Action>(ShowIntentionActions)
+nmap <C--> <Action>(Back)
+nmap <C-/> <Action>(Forward)
+
+" build
+nmap <C-b> <Action>(BuildWholeSolution)
+nmap <C-b>r <Action>(RebuildWholeSolution)
+nmap <C-r> <Action>(Run)
+nmap <C-s> <Action>(Stop)
 
 nmap <C-j> <Action>(MoveLineDown)
 xmap <C-j> <Action>(MoveLineDown)
@@ -96,82 +102,3 @@ command Wrap action EditorToggleUseSoftWraps
 """ Window manipulation
 nmap gwv <Action>(SplitVertically)
 nmap gwu <Action>(Unsplit)
-
-
-""" IdeaVim plugins
-
-packadd matchit		" Extended matching. Supports % (matching motion) and g% (reverse motion)
-
-Plug 'easymotion/vim-easymotion'	" Requires IdeaVim-EasyMotion. Lots of mappings
-Plug 'kana/vim-textobj-entire'		" entire buffer text object: ae
-Plug 'machakann/vim-highlightedyank'
-Plug 'terryma/vim-multiple-cursors'	" See below for remapped keys. <A-n> doesn't work on Mac
-Plug 'tommcdo/vim-exchange'		    " cx{motion} to select, again to exchange
-Plug 'tpope/vim-commentary'		    " [count]gc{motion}, o_gc, v_gc, gcc
-Plug 'tpope/vim-surround'		    " ys, cs, ds, S
-Plug 'vim-scripts/argtextobj.vim'	    " argument text objects: aa, ia
-
-" Remap multiple-cursors shortcuts to match terryma/vim-multiple-cursors
-nmap <C-n> <Plug>NextWholeOccurrence
-xmap <C-n> <Plug>NextWholeOccurrence
-nmap g<C-n> <Plug>NextOccurrence
-xmap g<C-n> <Plug>NextOccurrence
-xmap <C-x> <Plug>SkipOccurrence
-xmap <C-p> <Plug>RemoveOccurrence
-
-" Note that the default <A-n> and g<A-n> shortcuts don't work on Mac due to dead keys.
-" <A-n> is used to enter accented text e.g. ñ
-nmap <leader><C-n> <Plug>AllWholeOccurrences
-xmap <leader><C-n> <Plug>AllWholeOccurrences
-nmap <leader>g<C-n> <Plug>AllOccurrences
-xmap <leader>g<C-n> <Plug>AllOccurrences
-
-" CamelCaseMotion approximation (obsolete with WIP proper CamelCaseMotoin plugin)
-" Missing inner word motions e.g. i<leader>w
-nmap <leader>w [w
-nmap <leader>b [b
-nmap <leader>e ]w
-nmap <leader>ge ]b
-" let g:camelcasemotion_key='<leader>'
-" set CamelCaseMotion
-
-" CCM's inner motions are a bit weird. Arguably, they should be an actual text object,
-" like how vim-text-obj-variable-segment does it. On the other hand v[count]i\b can't
-" be done without a motion. These maps give us best of both worlds
-" xnoremap iv i\e
-" onoremap iv i\e
-" xnoremap av i\w
-" onoremap av i\w
-
-function! Invert(calledFromVisual)
-  let antonyms = ['true', 'false', 'after', 'before', 'start', 'end', 'left', 'right', 'first', 'last',
-                 \'True', 'False', 'After', 'Before', 'Start', 'End', 'Left', 'Right', 'First', 'Last']
-
-  if a:calledFromVisual
-    normal gv"wy
-  else
-    normal "wyiw
-  endif
-  let wordUnderCaret = @w
-
-  let eraseWord = a:calledFromVisual ? 'gvc' : 'ciw'
-  let count = 0
-  while (count < len(antonyms))
-    if (antonyms[count] ==# wordUnderCaret)
-      let antonym = (count % 2 ==? 0) ? antonyms[count + 1] : antonyms[count - 1]
-      execute 'normal ' .. eraseWord .. antonym
-      break
-    endif
-    let count += 1
-  endwhile
-endfunction
-
-nnoremap gX :set opfunc=Redact<CR>g@
-nnoremap gx :set opfunc=function('Redact')<CR>g@
-nnoremap gy :set opfunc={arg -> execute "normal `[v`]rx"}<CR>g@
-function! Redact(type)
-    execute "normal `[v`]rx"
-endfunction
-
-nnoremap ! :call Invert(0)<CR>
-vnoremap ! :<C-u>call Invert(1)<CR>
